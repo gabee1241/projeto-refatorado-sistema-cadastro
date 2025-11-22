@@ -165,11 +165,11 @@ public class TelaCadastro extends javax.swing.JFrame {
              JOptionPane.showMessageDialog(this, "Registro cadastrado com sucesso!");       
         }
          catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Número do episódio inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Favor preencher todas as informações!", "Erro", JOptionPane.ERROR_MESSAGE);
          }
         
         catch (HeadlessException e) {
-        JOptionPane.showMessageDialog(this, "Erro ao cadastrar podcast: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Erro ao fazer cadastro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
     }   catch (DaoException ex) {
             Logger.getLogger(TelaCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
