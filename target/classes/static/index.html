@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cadastro</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css" type="text/css"/>
+    <link rel="stylesheet" href="../css/styles.css" type="text/css">
+
+
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h2>Sistema de Cadastro</h2>
+                <p class="text-muted">Alunos e Professores</p>
+            </div>
+            
+            <div id="loginAlert"></div>
+            
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label class="form-label">Usuário</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100">Entrar</button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <small class="text-muted">
+                    Usuários de teste:<br>
+                    <strong>admin/admin</strong> | <strong>operador/operador</strong> | <strong>usuario/usuario</strong>
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Principal -->
+    <div id="dashboardScreen" class="dashboard">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light navbar-custom mb-4">
+            <div class="container-fluid">
+                <span class="navbar-brand fw-bold" style="color: #667eea;">Sistema de Cadastro</span>
+                <div class="d-flex align-items-center">
+                    <span class="me-3" id="userDisplay"></span>
+                    <button class="btn btn-outline-danger btn-sm" onclick="logout()">Sair</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <!-- Informações do Usuário -->
+            <div class="user-info">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>Usuário:</strong> <span id="currentUser"></span>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <strong>Perfil:</strong> <span class="badge bg-primary" id="currentPerfil"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu de Navegação -->
+            <div class="card">
+                <div class="card-body text-center">
+                    <button class="btn btn-primary menu-btn" onclick="showSection('home')">
+                        📊 Dashboard
+                    </button>
+                    <button class="btn btn-success menu-btn" onclick="showSection('alunos')">
+                        👨‍🎓 Alunos
+                    </button>
+                    <button class="btn btn-info menu-btn" onclick="showSection('professores')">
+                        👨‍🏫 Professores
+                    </button>
+                </div>
+            </div>
+
+            <!-- Alerts -->
+            <div id="dashboardAlert"></div>
+
+            <!-- Seção Home -->
+            <div id="homeSection" class="form-section">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card stats-card">
+                            <div class="card-body">
+                                <h5>👨‍🎓 Total de Alunos</h5>
+                                <h2 id="totalAlunos">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card stats-card">
+                            <div class="card-body">
+                                <h5>👨‍🏫 Total de Professores</h5>
+                                <h2 id="totalProfessores">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5>Suas Permissões</h5>
+                        <ul id="permissoesList"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção Alunos -->
+            <div id="alunosSection" class="form-section">
+                <div class="card">
+                    <div class="card-header">
+                        Gerenciar Alunos
+                    </div>
+                    <div class="card-body">
+                            <button class="btn btn-success mb-3" id="btnNovoAluno" onclick="showFormNovoAluno()">
+                                ➕ Novo Aluno
+                            </button>   
+
+                        <!-- Formulário de Cadastro -->
+                        <div id="formAluno" style="display: none;">
+                            <form id="alunoForm">
+                                <input type="hidden" id="alunoId">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Nome</label>
+                                        <input type="text" class="form-control" id="alunoNome" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">RG</label>
+                                        <input type="text" class="form-control" id="alunoRg" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Curso</label>
+                                        <input type="text" class="form-control" id="alunoCurso" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                                <button type="button" class="btn btn-secondary" onclick="hideFormAluno()">Cancelar</button>
+                            </form>
+                            <hr>
+                        </div>
+
+                        <!-- Tabela de Alunos -->
+                        <div class="table-container">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>RG</th>
+                                        <th>Curso</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alunosTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção Professores -->
+            <div id="professoresSection" class="form-section">
+                <div class="card">
+                    <div class="card-header">
+                        Gerenciar Professores
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-success mb-3" id="btnNovoProfessor" onclick="showFormNovoProfessor()">
+                            ➕ Novo Professor
+                        </button>
+
+                        <!-- Formulário de Cadastro -->
+                        <div id="formProfessor" style="display: none;">
+                            <form id="professorForm">
+                                <input type="hidden" id="professorId">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Nome</label>
+                                        <input type="text" class="form-control" id="professorNome" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">RG</label>
+                                        <input type="text" class="form-control" id="professorRg" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Departamento</label>
+                                        <input type="text" class="form-control" id="professorDepartamento" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                                <button type="button" class="btn btn-secondary" onclick="hideFormProfessor()">Cancelar</button>
+                            </form>
+                            <hr>
+                        </div>
+
+                        <!-- Tabela de Professores -->
+                        <div class="table-container">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>RG</th>
+                                        <th>Departamento</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="professoresTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/alunos.js"></script>
+    <script src="js/professores.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

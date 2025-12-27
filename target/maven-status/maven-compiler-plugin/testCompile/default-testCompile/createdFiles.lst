@@ -1,1 +1,3 @@
-test\PermissaoUsuarioTest.class
+model\UsuarioTest.class
+model\AlunoTest.class
+model\ProfessorTest.class
