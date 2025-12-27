@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -18,6 +17,9 @@
     <version>1.0.0</version>
     <name>Sistema de Cadastro</name>
     <description>Sistema de Cadastro de Alunos e Professores</description>
+    
+    <!-- ============ MUDANÇA 1: Alterar packaging para WAR ============ -->
+    <packaging>war</packaging>
     
     <properties>
         <java.version>17</java.version>
@@ -58,6 +60,13 @@
             <optional>true</optional>
         </dependency>
         
+        <!-- ============ MUDANÇA 2: Adicionar Tomcat como provided ============ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
         <!-- JUnit 5 (Test) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -67,6 +76,9 @@
     </dependencies>
     
     <build>
+        <!-- ============ MUDANÇA 3: Definir nome final do WAR ============ -->
+        <finalName>sistema-cadastro</finalName>
+        
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -78,6 +90,16 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            
+            <!-- ============ MUDANÇA 4: Plugin Maven WAR ============ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
         </plugins>
